@@ -18,29 +18,29 @@ const users = {
     {
       id: "xyz789",
       name: "Charlie",
-      job: "Janitor"
+      job: "Janitor",
     },
     {
       id: "abc123",
       name: "Mac",
-      job: "Bouncer"
+      job: "Bouncer",
     },
     {
       id: "ppp222",
       name: "Mac",
-      job: "Professor"
+      job: "Professor",
     },
     {
       id: "yat999",
       name: "Dee",
-      job: "Aspring actress"
+      job: "Aspring actress",
     },
     {
       id: "zap555",
       name: "Dennis",
-      job: "Bartender"
-    }
-  ]
+      job: "Bartender",
+    },
+  ],
 };
 
 app.get("/users", (req, res) => {
