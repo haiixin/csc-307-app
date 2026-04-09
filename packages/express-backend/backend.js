@@ -43,9 +43,14 @@ const users = {
   ],
 };
 
+// GET endpoints
+
 const findUserByName = (name) => {
   return users["users_list"].filter((user) => user["name"] === name);
 };
+
+const findUserById = (id) =>
+  users["users_list"].find((user) => user["id"] === id);
 
 app.get("/users", (req, res) => {
   const name = req.query.name;
@@ -58,9 +63,6 @@ app.get("/users", (req, res) => {
   }
 });
 
-const findUserById = (id) =>
-  users["users_list"].find((user) => user["id"] === id);
-
 app.get("/users/:id", (req, res) => {
   const id = req.params["id"]; //or req.params.id
   let result = findUserById(id);
@@ -70,6 +72,21 @@ app.get("/users/:id", (req, res) => {
     res.send(result);
   }
 });
+
+app.get("/users/:name/:job", (req, res) => {
+  const name = req.params["name"];
+  const job = req.params["job"];
+  const result = users["users_list"].filter(
+    (user) => user["name"] === name && user["job"] === job,
+  );
+    if (result === undefined || result.length === 0) {
+    res.status(404).send("Resource not found.");
+  } else {
+    res.send(result);
+  }
+});
+
+// POST endpoints
 
 const addUser = (user) => {
   users["users_list"].push(user);
@@ -81,6 +98,8 @@ app.post("/users", (req, res) => {
   addUser(userToAdd);
   res.send();
 });
+
+// DELETE endpoints
 
 app.delete("/users", (req, res) => {
   const id = req.body.id;
