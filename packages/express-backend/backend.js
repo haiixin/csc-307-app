@@ -81,7 +81,7 @@ app.get("/users/:name/:job", (req, res) => {
   const result = users["users_list"].filter(
     (user) => user["name"] === name && user["job"] === job,
   );
-    if (result === undefined || result.length === 0) {
+  if (result === undefined || result.length === 0) {
     res.status(404).send("Resource not found.");
   } else {
     res.send(result);
@@ -95,10 +95,18 @@ const addUser = (user) => {
   return user;
 };
 
+const generateId = () => {
+  const id = Math.random().toString(36).substring(2, 7);
+  return id;
+};
+
 app.post("/users", (req, res) => {
-  const userToAdd = req.body;
+  const userToAdd = {
+    id: generateId(),
+    ...req.body
+  };
   addUser(userToAdd);
-  res.send();
+  res.status(201).send(userToAdd);
 });
 
 // DELETE endpoints
@@ -112,6 +120,6 @@ app.delete("/users", (req, res) => {
     users["users_list"] = users["users_list"].filter(
       (user) => user["id"] !== id,
     );
-    res.send();
+    res.status(204).send();
   }
 });
