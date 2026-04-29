@@ -25,19 +25,16 @@ import Form from "./Form";
 function MyApp() {
   const [characters, setCharacters] = useState([]);
 
-  function deleteUser(person) {
-    const promise = fetch("http://localhost:8000/users", {
+  function deleteUser(id) {
+    const promise = fetch(`http://localhost:8000/users/${id}`, {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(person),
-    });
+      });
     return promise;
   }
 
   function removeOneCharacter(index) {
-    deleteUser(characters[index])
+    const characterId = characters[index]._id;
+    deleteUser(characterId)
       .then((res) => {
         if (res.status === 204 || res.status === 200) {
           const updated = characters.filter((character, i) => {
@@ -59,7 +56,7 @@ function MyApp() {
   useEffect(() => {
     fetchUsers()
       .then((res) => res.json())
-      .then((json) => setCharacters(json["users_list"]))
+      .then((json) => setCharacters(json))
       .catch((error) => {
         console.log(error);
       });
